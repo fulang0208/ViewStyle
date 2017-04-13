@@ -32,6 +32,14 @@ extension UIView {
         }
     }
     
+    public func mi_updateStyles<S: Sequence>(styles: S)
+        where S.Iterator.Element == (MIProperty, Any) {
+            print(styles)
+            for (key, value) in styles {
+                mi_setValue(value, forKey: key.rawValue)
+            }
+    }
+    
     open func mi_setValue(_ value: Any, forKey key: String) {
         
         let style = MIProperty(rawValue: key)!

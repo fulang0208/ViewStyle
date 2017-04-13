@@ -9,6 +9,10 @@
 import UIKit
 import ViewStyle
 
+let redBackground:[MIProperty: Any] = [.backgroundColor: UIColor.red]
+let blueBorder: [MIProperty: Any] = [.layerBorderWidth: 1.0,
+                                     .layerBorderColor: UIColor.blue.cgColor]
+
 class ViewViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -25,7 +29,8 @@ class ViewViewController: UIViewController {
         
         let view2 = UIView(frame: CGRect(x: 10, y: 220, width: 200, height: 100))
         view2.backgroundColor = UIColor.blue
-        view2.mi_styles = self.normalStyle
+//        view2.mi_styles = self.normalStyle
+        view2.mi_updateStyles(styles: self.testStyleGroup)
         view2.mi_styles = self.layerStyle
         self.view.addSubview(view2)
         
@@ -50,11 +55,21 @@ extension ViewViewController {
         ]
     }
     
+    var testStyleGroup: [(MIProperty, Any)] {
+        return [redBackground,
+                [.alpha: 0.5],
+                [.isOpaque: true,
+                 .tintAdjustmentMode: UIViewTintAdjustmentMode.automatic,
+                 .clipsToBounds: true
+                 ],
+                blueBorder,
+                layerStyle
+        ].flatMap({ $0 })
+    }
+    
     var layerStyle: [MIProperty: Any] {
         return [
             .clipsToBounds: false,
-            .layerBorderWidth: 1.0,
-            .layerBorderColor: UIColor.red.cgColor,
             .layerShadowRadius: 4.0,
             .layerShadowColor: UIColor.green.cgColor,
             .layerShadowOffset: CGSize(width: 10, height: 10),
